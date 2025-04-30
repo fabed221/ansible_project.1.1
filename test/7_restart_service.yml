@@ -1,0 +1,16 @@
+---
+- name: Restart required services
+  hosts: linux
+  become: yes
+  vars_files:
+    - vault.yml
+
+  tasks:
+    - name: Restart services with loop
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - nginx
+        - mysql
+        - php8.3-fpm
